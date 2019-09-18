@@ -1,19 +1,9 @@
 package com.controllers;
 
-import com.models.Counter;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+public class ClickCounterController extends AbstractWebSocketHandler {
 
-@RestController
-public class ClickCounterController {
+    
 
-    @RequestMapping(
-            value="/incrementCounter",
-            method = POST
-    )
-    public void incrementCounter() {
-        Counter.incrementCounter();
-    }
 }
