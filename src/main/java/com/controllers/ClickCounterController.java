@@ -17,7 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClickCounterController extends AbstractWebSocketHandler {
 
     private static Logger logger = LoggerFactory.getLogger(ClickCounterController.class);
-    private static Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
+
+    public static Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
+
+    private ClickCounterHelper clickCounterHelper = new ClickCounterHelper();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
@@ -37,6 +40,6 @@ public class ClickCounterController extends AbstractWebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) {
         Counter.incrementCounter();
-        ClickCounterHelper.broadcastCounter();
+        clickCounterHelper.broadcastCounter();
     }
 }
