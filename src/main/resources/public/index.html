@@ -19,6 +19,9 @@
             height: 40px;
             width: 90px;
         }
+        #display {
+            width: 200px;
+        }
         p {
             font-size: 300%;
             margin: 20px;
@@ -37,30 +40,15 @@
 <script>
     const counter = document.getElementById("display");
     const button = document.getElementById("button");
-
     const socket = new WebSocket("ws://localhost:8080/incrementCounter");
-    socket.binaryType = "arraybuffer";
 
     socket.onmessage = function (event) {
-        if (event.data instanceof ArrayBuffer) {
-            addMessageToWindow('Got Image:');
-            addImageToWindow(event.data);
-        } else {
-            addMessageToWindow(`${event.data}`);
-        }
+        counter.innerHTML = "<p>" + event.data + "</p>";
     };
 
     button.onclick = function (event) {
-        sendMessage();
+        socket.send("");
     };
-
-    function sendMessage() {
-        socket.send();
-    }
-
-    function addMessageToWindow(message) {
-        counter.innerHTML += `<p>${message}</p>`
-    }
 
 </script>
 </html>
