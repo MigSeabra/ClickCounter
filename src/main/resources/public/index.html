@@ -1,12 +1,7 @@
 <html>
 <head>
     <style>
-        #container {
-            height: 200px;
-            position: relative;
-            border: 3px solid green;
-        }
-        #messages {
+        #box {
             font-family: Verdana, Geneva, sans-serif;
             text-align: center;
             padding: 200px;
@@ -24,65 +19,48 @@
             height: 40px;
             width: 90px;
         }
+        p {
+            font-size: 300%;
+            margin: 20px;
+        }
     </style>
     <title>Click Counter</title>
 </head>
 <body>
-<div class="container">
-    <div id="messages">
-        <p>ok</p>
+<div id="container">
+    <div id="box">
+        <div id="display"></div>
         <button id="button">Click me!</button>
     </div>
 </div>
 </body>
 <script>
-    const messageWindow = document.getElementById("messages");
+    const counter = document.getElementById("display");
+    const button = document.getElementById("button");
 
-    const sendButton = document.getElementById("send");
-    const messageInput = document.getElementById("message");
-
-    const fileInput = document.getElementById("file");
-    const sendImageButton = document.getElementById("sendImage");
-
-    const socket = new WebSocket("ws://localhost:8080/socket");
+    const socket = new WebSocket("ws://localhost:8080/incrementCounter");
     socket.binaryType = "arraybuffer";
-
-    socket.onopen = function (event) {
-        addMessageToWindow("Connected");
-    };
 
     socket.onmessage = function (event) {
         if (event.data instanceof ArrayBuffer) {
             addMessageToWindow('Got Image:');
             addImageToWindow(event.data);
         } else {
-            addMessageToWindow(`Got Message: ${event.data}`);
+            addMessageToWindow(`${event.data}`);
         }
     };
 
-    sendButton.onclick = function (event) {
-        sendMessage(messageInput.value);
-        messageInput.value = "";
+    button.onclick = function (event) {
+        sendMessage();
     };
 
-    sendImageButton.onclick = function (event) {
-        let file = fileInput.files[0];
-        sendMessage(file);
-        fileInput.value = null;
-    };
-
-    function sendMessage(message) {
-        socket.send(message);
-        addMessageToWindow("Sent Message: " + message);
+    function sendMessage() {
+        socket.send();
     }
 
     function addMessageToWindow(message) {
-        messageWindow.innerHTML += `<div>${message}</div>`
+        counter.innerHTML += `<p>${message}</p>`
     }
 
-    function addImageToWindow(image) {
-        let url = URL.createObjectURL(new Blob([image]));
-        messageWindow.innerHTML += `<img src="${url}"/>`
-    }
 </script>
 </html>
