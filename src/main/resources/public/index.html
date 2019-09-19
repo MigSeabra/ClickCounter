@@ -1,23 +1,35 @@
 <html>
 <head>
     <style>
+        #container {
+            height: 200px;
+            position: relative;
+            border: 3px solid green;
+        }
         #messages {
             font-family: Verdana, Geneva, sans-serif;
             text-align: center;
-            height: auto;
-            width: auto;
-            padding: 1em;
+            padding: 200px;
+            padding-left: 400px;
+            padding-right: 400px;
             border: 1px solid black;
-            margin: 20 px;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
         }
-
-
+        #button {
+            height: 40px;
+            width: 90px;
+        }
     </style>
     <title>Click Counter</title>
 </head>
 <body>
 <div class="container">
-    <div id="messages" class="messages">
+    <div id="messages">
         <p>ok</p>
         <button id="button">Click me!</button>
     </div>
