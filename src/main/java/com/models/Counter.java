@@ -9,6 +9,8 @@ public class Counter {
     }
 
     public static synchronized void incrementCounter() {
-        counter++;
+        if (counter < Integer.MAX_VALUE) {
+            counter++;
+        }
     }
 }

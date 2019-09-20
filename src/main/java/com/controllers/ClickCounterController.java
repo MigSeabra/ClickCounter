@@ -40,4 +40,9 @@ public class ClickCounterController extends AbstractWebSocketHandler {
         Counter.incrementCounter();
         clickCounterHelper.broadcastCounter();
     }
+
+    @Override
+    public void handleTransportError(WebSocketSession session, Throwable exception) {
+        logger.warn("An error occurred in session [{}]: [{}]", session.getId(), exception.getMessage());
+    }
 }

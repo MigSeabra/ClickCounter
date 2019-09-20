@@ -50,5 +50,9 @@
         socket.send("");
     };
 
+    socket.onerror = function (event) {
+        console.error("An error occurred on event: ", event);
+    }
+
 </script>
 </html>
