@@ -8,16 +8,24 @@ import org.springframework.web.socket.TextMessage;
 
 import java.io.IOException;
 
+/**
+ * ClickCounter Helper
+ * Helper methods for ClickCounter Controller
+ */
 public class ClickCounterHelper {
 
     private static Logger logger = LoggerFactory.getLogger(ClickCounterHelper.class);
 
+    /**
+     * Broadcast Counter Helper Method
+     * Broadcasts the current Counter value to all connected WebSocket sessions
+     */
     public void broadcastCounter() {
         ClickCounterController.sessions.forEach(s -> {
             try {
                 s.sendMessage(new TextMessage(Counter.getCounter().toString()));
             } catch (IOException e) {
-                logger.warn("Message was not sent to session with id: [{}]", s.getId());
+                logger.warn("Message was not sent to session with id [{}] due to: [{}]", s.getId(), e.getMessage());
             }
         });
     }
