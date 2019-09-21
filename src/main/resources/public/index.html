@@ -59,5 +59,10 @@
         counter.innerHTML = "<p>#</p>";
     }
 
+    //ping messages to prevent WebSocket connection closed
+    setInterval(function () {
+                    socket.send("");
+                }, 30000);
+
 </script>
 </html>
