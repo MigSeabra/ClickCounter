@@ -52,6 +52,7 @@
 
     socket.onerror = function (event) {
         console.error("An error occurred on event: ", event);
+        counter.innerHTML = "<p>#</p>";
     }
 
     socket.onclose = function (event) {
