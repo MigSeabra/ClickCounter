@@ -47,7 +47,7 @@
     };
 
     button.onclick = function (event) {
-        socket.send("");
+        socket.send("increment");
     };
 
     socket.onerror = function (event) {
@@ -56,6 +56,7 @@
 
     socket.onclose = function (event) {
         console.log("WebSocket connection closed.");
+        counter.innerHTML = "<p>#</p>";
     }
 
 </script>

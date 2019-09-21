@@ -2,11 +2,11 @@ package com.controllers;
 
 import com.helpers.ClickCounterHelper;
 import com.models.Counter;
+import com.models.CounterOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
@@ -62,10 +62,13 @@ public class ClickCounterController extends AbstractWebSocketHandler {
      * @param message Received WebSocket message
      */
     @Override
-    public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) {
-        logger.info("Received message from session ID: [{}]", session.getId());
-        Counter.incrementCounter();
-        clickCounterHelper.broadcastCounter();
+    public void handleTextMessage(WebSocketSession session, TextMessage message) {
+        if (message.getPayload() != null &&
+                CounterOperations.INCREMENT.name().equals(message.getPayload().toUpperCase())) {
+            logger.info("Increment message received from session ID: [{}]", session.getId());
+            Counter.incrementCounter();
+            clickCounterHelper.broadcastCounter();
+        }
     }
 
     /**
@@ -79,7 +82,3 @@ public class ClickCounterController extends AbstractWebSocketHandler {
         logger.warn("An error occurred in session ID [{}]: [{}]", session.getId(), exception.getMessage());
     }
 }
-
-//modelo de dados
-//swagger
-//testes
