@@ -40,7 +40,7 @@
 <script>
     const counter = document.getElementById("display");
     const button = document.getElementById("button");
-    const socket = new WebSocket("ws://localhost:8080/incrementCounter");
+    const socket = new WebSocket("ws://clickcounter-env.pvtparccyu.eu-west-3.elasticbeanstalk.com/incrementCounter");
 
     socket.onmessage = function (event) {
         counter.innerHTML = "<p>" + event.data + "</p>";

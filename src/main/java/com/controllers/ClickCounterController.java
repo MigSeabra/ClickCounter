@@ -79,3 +79,7 @@ public class ClickCounterController extends AbstractWebSocketHandler {
         logger.warn("An error occurred in session ID [{}]: [{}]", session.getId(), exception.getMessage());
     }
 }
+
+//modelo de dados
+//swagger
+//testes
