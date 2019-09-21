@@ -6,14 +6,14 @@ package com.models;
  */
 public class Counter {
 
-    private static Integer counter = 0;
+    private Integer counter = 0;
 
     /**
      * Get Counter
      * Returns current Counter value
      * @return Current Counter value
      */
-    public static synchronized Integer getCounter() {
+    public synchronized Integer getCounter() {
         return counter;
     }
 
@@ -21,7 +21,7 @@ public class Counter {
      * Increment Counter
      * Increments current Counter value to the maximum allowed by Integer class
      */
-    public static synchronized void incrementCounter() {
+    public synchronized void incrementCounter() {
         if (counter < Integer.MAX_VALUE) {
             counter++;
         }

@@ -21,8 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClickCounterController extends AbstractWebSocketHandler {
 
     private static Logger logger = LoggerFactory.getLogger(ClickCounterController.class);
-    public static Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
-    private ClickCounterHelper clickCounterHelper = new ClickCounterHelper();
+    private Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
+    private Counter counter = new Counter();
 
     /**
      * After Connections Established Handler
@@ -34,7 +34,7 @@ public class ClickCounterController extends AbstractWebSocketHandler {
         logger.info("Connection established with session ID: [{}]", session.getId());
         sessions.add(session);
         try {
-            session.sendMessage(new TextMessage(Counter.getCounter().toString()));
+            session.sendMessage(new TextMessage(counter.getCounter().toString()));
         } catch (IOException e) {
             logger.warn("Message was not sent to session with id: [{}] due to: [{}]", session.getId(), e.getMessage());
         }
@@ -66,8 +66,8 @@ public class ClickCounterController extends AbstractWebSocketHandler {
         if (message.getPayload() != null &&
                 CounterOperations.INCREMENT.name().equals(message.getPayload().toUpperCase())) {
             logger.info("Increment message received from session ID: [{}]", session.getId());
-            Counter.incrementCounter();
-            clickCounterHelper.broadcastCounter();
+            counter.incrementCounter();
+            ClickCounterHelper.broadcastCounter(sessions, counter);
         }
     }
 
