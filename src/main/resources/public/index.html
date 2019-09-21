@@ -54,5 +54,9 @@
         console.error("An error occurred on event: ", event);
     }
 
+    socket.onclose = function (event) {
+        console.log("WebSocket connection closed.");
+    }
+
 </script>
 </html>
