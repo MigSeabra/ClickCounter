@@ -21,6 +21,8 @@ public class ClickCounterHelper {
     /**
      * Broadcast Counter Helper Method
      * Broadcasts the current Counter value to all connected WebSocket sessions
+     * @param sessions Set of all connected sessions
+     * @param counter Current counter DTO
      */
     public static void broadcastCounter(Set<WebSocketSession> sessions, Counter counter) {
         sessions.forEach(s -> {
