@@ -43,11 +43,19 @@
     const socket = new WebSocket("ws://clickcounter-env.pvtparccyu.eu-west-3.elasticbeanstalk.com/incrementCounter");
 
     socket.onmessage = function (event) {
-        counter.innerHTML = "<p>" + event.data + "</p>";
+        var counterResponse = JSON.parse(event.data);
+        if (counterResponse.status == "OK") {
+            counter.innerHTML = "<p>" + counterResponse.counter + "</p>";
+        } else {
+            console.error("An error occurred on event: ", event);
+            counter.innerHTML = "<p>#</p>";
+        }
     };
 
     button.onclick = function (event) {
-        socket.send("increment");
+        var request = new Object();
+        request.operation = "INCREMENT";
+        socket.send(JSON.stringify(request));
     };
 
     socket.onerror = function (event) {

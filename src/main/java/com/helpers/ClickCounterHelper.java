@@ -2,6 +2,8 @@ package com.helpers;
 
 import com.controllers.ClickCounterController;
 import com.models.Counter;
+import com.models.CounterResponse;
+import com.models.ResponseStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
@@ -27,7 +29,8 @@ public class ClickCounterHelper {
     public static void broadcastCounter(Set<WebSocketSession> sessions, Counter counter) {
         sessions.forEach(s -> {
             try {
-                s.sendMessage(new TextMessage(counter.getCounter().toString()));
+                CounterResponse response = new CounterResponse(ResponseStatus.OK.name(), counter.getCounter());
+                s.sendMessage(new TextMessage(response.toString()));
             } catch (IOException e) {
                 logger.warn("Message was not sent to session with id [{}] due to: [{}]", s.getId(), e.getMessage());
             }

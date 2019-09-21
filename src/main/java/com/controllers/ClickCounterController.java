@@ -1,8 +1,7 @@
 package com.controllers;
 
 import com.helpers.ClickCounterHelper;
-import com.models.Counter;
-import com.models.CounterOperations;
+import com.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -34,7 +33,8 @@ public class ClickCounterController extends AbstractWebSocketHandler {
         logger.info("Connection established with session ID: [{}]", session.getId());
         sessions.add(session);
         try {
-            session.sendMessage(new TextMessage(counter.getCounter().toString()));
+            CounterResponse response = new CounterResponse(ResponseStatus.OK.name(), counter.getCounter());
+            session.sendMessage(new TextMessage(response.toString()));
         } catch (IOException e) {
             logger.warn("Message was not sent to session with id: [{}] due to: [{}]", session.getId(), e.getMessage());
         }
@@ -63,8 +63,8 @@ public class ClickCounterController extends AbstractWebSocketHandler {
      */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
-        if (message.getPayload() != null &&
-                CounterOperations.INCREMENT.name().equals(message.getPayload().toUpperCase())) {
+        CounterOperationRequest request = CounterOperationRequest.toObject(message.getPayload());
+        if (request != null && CounterOperations.INCREMENT == request.getOperation()) {
             logger.info("Increment message received from session ID: [{}]", session.getId());
             counter.incrementCounter();
             ClickCounterHelper.broadcastCounter(sessions, counter);
