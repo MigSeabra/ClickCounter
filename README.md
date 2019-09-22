@@ -10,4 +10,4 @@ http://clickcounter-env.pvtparccyu.eu-west-3.elasticbeanstalk.com/
 
 ### API Documentation
 
-https://app.swaggerhub.com/apis-docs/MigSeabra/Converto-Matic/1.0.0
+https://app.swaggerhub.com/apis-docs/MigSeabra/ClickCounter/1.0.0
